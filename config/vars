@@ -1,0 +1,4 @@
+export BQ_DATASET='raw_data_store'
+export region='europe-west6'
+export gcp_project='datazoomcamp-jagadish-final'
+export gcp_bucket='jagadish_data_lake_'$gcp_project

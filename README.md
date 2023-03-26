@@ -15,10 +15,45 @@ This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomca
         1. run `gcloud auth application-default login` and enter Y when prompted, click on the link provided and login to the gcp console and copy the authorization code and paste in the terminal where prompted
         2. verify `~/.config/gcloud/application_default_credentials.json` it has the updated and the required project creds now
         3. `unset GOOGLE_APPLICATION_CREDENTIALS`
+    b. To use the download gcp creds file directly(json file)
+        1. cd to `~/.gc/`
+        2. create a json file and copy the content
+        3. now set the env variable `export GOOGLE_APPLICATION_CREDENTIALS=~/.gc/<json file_name>`
+        4. keep the above export command in your bash profile file to make it permanent env variable i.e., you wouldn't need to set everytime you open a terminal
 
 ### Terraform
 1. `terraform init`
 2. `terraform apply`
 3. `terraform output` to validate the output values
 
+
+### venv & prefect cli setup
+0. signup at https://www.prefect.io/cloud/ and then login, and create a workspace with name 'ipl-project'
+1. `python -m venv ipl_venv`
+2. `source ipl_venv/bin/activate`
+3. `pip install -r prefect/requirements.txt`
+4. `prefect --version`
+5. `prefect profile create pref_cloud`
+6. `prefect profile user pref_cloud`
+7. go to `https://app.prefect.cloud/my/api-keys` and create an API key, copy the value
+8. `prefect cloud login` and select `paste an API key` and paste the above copied API key value here
+9. `prefect cloud workspace set` and select the `ipl-project` workspace
+
+
+https://ipl-data.s3.ap-south-1.amazonaws.com/IPL_Ball_by_Ball_2008_2022.zip
+https://ipl-data.s3.ap-south-1.amazonaws.com/IPL_Matches_2008_2022.zip
+
 ### Prefect
+0. `source config/vars`
+1. `python prefect/blocks/create_gcp_block.py`
+#### cli commands
+2. `prefect deployment build prefect/flows/etl_store_data_to_gcs.py:etl_store_to_gcs -n "deploy ETL job for web to gcs bucket" --cron "*/5 * * * *"`
+3. `prefect deployment apply etl_store_to_gcs-deployment.yaml`
+4. `prefect agent start -q 'default'` to start the agent locally
+
+###### not needed as of this commit point
+3. `gcloud auth configure-docker europe-west6-docker.pkg.dev`
+europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project
+4. docker build -t europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/etl_store_to_gcs:final-de-zoomcamp prefect/
+5.  docker push europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/etl_store_to_gcs:final-de-zoomcamp
+6. 
