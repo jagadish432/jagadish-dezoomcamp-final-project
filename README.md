@@ -50,6 +50,13 @@ https://ipl-data.s3.ap-south-1.amazonaws.com/IPL_Matches_2008_2022.zip
 2. `prefect deployment build prefect/flows/etl_store_data_to_gcs.py:etl_store_to_gcs -n "deploy ETL job for web to gcs bucket" --cron "*/5 * * * *"`
 3. `prefect deployment apply etl_store_to_gcs-deployment.yaml`
 4. `prefect agent start -q 'default'` to start the agent locally
+#### build docker file instead of normal python file deployment
+5. `docker build -t 4329/etl_store_to_gcs:ipl-project prefect/`
+6. `docker push 4329/etl_store_to_gcs:ipl-project`
+7. `python prefect/blocks/create_docker_block.py`
+8. `prefect deployment run etl-store-to-gcs/docker-flow`
+
+
 
 ###### not needed as of this commit point
 3. `gcloud auth configure-docker europe-west6-docker.pkg.dev`

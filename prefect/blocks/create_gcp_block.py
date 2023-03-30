@@ -8,10 +8,11 @@ GCP_BUCKET = os.environ.get('gcp_bucket', 'no_bucket_name')
 # insert your own service_account_file path or service_account_info dictionary from the json file
 # IMPORTANT - do not store credentials in a publicly available repository!
 
+content =open("/home/jagadish/.gc/finaldatazoomcamp.json", "r").read() 
 
 credentials_block = GcpCredentials(
-    # service_account_info={}  # enter your credentials info or use the file method.
-    service_account_file= "~/.gc/finaldatazoomcamp.json"
+    service_account_info=content # enter your credentials info or use the file method.
+    # service_account_file= "~/.gc/finaldatazoomcamp.json" #path to json file
 )
 credentials_block.save("zoom-gcp-creds", overwrite=True)
 

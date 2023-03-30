@@ -47,3 +47,11 @@ resource "google_bigquery_dataset" "dataset" {
   project    = var.project
   location   = var.region
 }
+
+
+resource "google_artifact_registry_repository" "ipl-project" {
+  location = var.region
+  repository_id = "ipl-project"
+  description = "Jagadeesh Dachepalli's IPL project google artifact repository"
+  format = "DOCKER"
+}
