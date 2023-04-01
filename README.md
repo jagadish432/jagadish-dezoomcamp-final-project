@@ -51,11 +51,13 @@ https://ipl-data.s3.ap-south-1.amazonaws.com/IPL_Matches_2008_2022.zip
 3. `prefect deployment apply etl_store_to_gcs-deployment.yaml`
 4. `prefect agent start -q 'default'` to start the agent locally
 #### build docker file instead of normal python file deployment
-5. `docker build -t 4329/etl_store_to_gcs:ipl-project-new prefect/`
-6. `docker push 4329/etl_store_to_gcs:ipl-project-new`
-7. `python prefect/blocks/create_docker_block.py`
-8. `python prefect/flows/docker_deploy.py`
-9. `prefect deployment run etl-store-to-gcs/docker-flow`
+0. Chane Directory to PREFECT folder - `cd prefect/`
+5. build docker image - `docker build -t 4329/etl_store_to_gcs:ipl-project-new ./`
+6. push docker image to docker hub repo - `docker push 4329/etl_store_to_gcs:ipl-project-new`
+7. create a prefect block for infrastructure to pull from docker repo - `python blocks/create_docker_block.py`
+8. create a deployment from flow and docker-infra prefect block and trigger a deployment `python flows/docker_deploy.py` (make sure you have an agent running to handle this deployment job) - This step will trigger a deployment and will wait for result, and once the agent runs the job it will return status to this call and this code will print that status at the end.
+
+
 
 
 
