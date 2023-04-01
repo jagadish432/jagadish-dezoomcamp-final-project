@@ -56,6 +56,12 @@ https://ipl-data.s3.ap-south-1.amazonaws.com/IPL_Matches_2008_2022.zip
 6. push docker image to docker hub repo - `docker push 4329/etl_store_to_gcs:ipl-project-new`
 7. create a prefect block for infrastructure to pull from docker repo - `python blocks/create_docker_block.py`
 8. create a deployment from flow and docker-infra prefect block and trigger a deployment `python flows/docker_deploy.py` (make sure you have an agent running to handle this deployment job) - This step will trigger a deployment and will wait for result, and once the agent runs the job it will return status to this call and this code will print that status at the end.
+9. somehow, this prefect `run_deployment` is not taking schedule expressions, and 1 github issue says it's a bug, so I've comeup with another approach.
+
+DIFF APPROACH
+10. we will still follow the above points - 5,6,7,8 (but the file in 8th step has a little changes that it won't trigger any job and now it'll create an output.yaml file in the local)
+11. now edit that yaml file schedule section to the required schedule we want by giving appropriate cron expressions.
+12. run `prefect deployment apply ouput.yaml` to apply the schedule which will auto-trigger the jobs, however, even at this point also the agent should run by us locally.
 
 
 
