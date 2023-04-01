@@ -6,7 +6,7 @@ from prefect_gcp import GcpCredentials
 from prefect_gcp.cloud_storage import GcsBucket, cloud_storage_upload_blob_from_string
 
 
-GCP_BUCKET = os.environ.get('gcp_bucket', 'no_bucket_name')
+GCP_BUCKET = os.environ['gcp_bucket']
 
 
 @task(retries=3)
