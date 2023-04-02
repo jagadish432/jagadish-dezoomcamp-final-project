@@ -58,23 +58,24 @@ https://ipl-data.s3.ap-south-1.amazonaws.com/IPL_Matches_2008_2022.zip
 8. create a deployment from flow and docker-infra prefect block and trigger a deployment `python flows/docker_deploy.py` (make sure you have an agent running to handle this deployment job) - This step will trigger a deployment and will wait for result, and once the agent runs the job it will return status to this call and this code will print that status at the end.
 9. somehow, this prefect `run_deployment` is not taking schedule expressions, and 1 github issue says it's a bug, so I've comeup with another approach.
 
-DIFF APPROACH
+#### DIFF APPROACH
 10. we will still follow the above points - 5,6,7,8 (but the file in 8th step has a little changes that it won't trigger any job and now it'll create an output.yaml file in the local)
 11. now edit that yaml file schedule section to the required schedule we want by giving appropriate cron expressions.
 12. run `prefect deployment apply ouput.yaml` to apply the schedule which will auto-trigger the jobs, however, even at this point also the agent should run by us locally.
 
 ### pushing docker image to the GCP artifact repository
 0. `cd prefect/`
-1. copy repo path from GCP artifact console - `europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project`
-2. `docker build -t europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v1 .`
-3. `docker push europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v1`
+1. copy repo path from GCP artifact console - `europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project`. you can also get it form by running `terraform output`.
+2. `docker build -t europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v2 .`
+3. `docker push europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v2`
 4. `python blocks/create_cloud_run_block.py` and `python flows/cloud_run_job_deploy.py`
 5. now edit that yaml file schedule section to the required schedule we want by giving appropriate cron expressions
 6. enable `cloud run API` in the GCP console.
-7. run `prefect deployment apply cloud-run-job-ouput.yaml` to apply the schedule which will auto-trigger the jobs, even at this point also the agent should run by us locally.However, the actual flow runs are handled by google cloud run jobs.
-8. This gcp cloud run jobs approach gives us the following benefits:
+7. run `prefect deployment apply cloud-run-job-ouput.yaml` to apply the schedule which will auto-trigger the jobs, even at this point also the agent should run by us *locally*.However, the actual flow runs are handled by google cloud run jobs.
+8. *This gcp cloud run jobs approach gives us the following benefits* :
     a. scalable serverless flows to handle multiple requests/flows
     b. setting up is easy, we just need a prefect block for infra code with gcp cloud run infra
     c. the gcp creds and cloud run infra block needs to be created once but can use many times by multiple flows
     d. for more info, please refer - https://medium.com/the-prefect-blog/serverless-prefect-flows-with-google-cloud-run-jobs-23edbf371175
+
 

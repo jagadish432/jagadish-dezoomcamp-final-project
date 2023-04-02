@@ -7,6 +7,7 @@ from prefect_gcp.cloud_storage import GcsBucket, cloud_storage_upload_blob_from_
 
 
 GCP_BUCKET = os.environ['gcp_bucket']
+GCP_CREDENTIALS = GcpCredentials.load("zoom-gcp-creds")
 
 
 @task(retries=3)
@@ -26,30 +27,19 @@ def fix_season_value(season):
 @task(log_prints=True)
 def clean(df=pd.DataFrame) -> pd.DataFrame:
     """Fix dtype issues"""
-    # df['City'] = df['City'].astype(str)
+    # These columns doesn't need to be converted as they're already of String type: Team1, Team2, Venue, TossWinner, TossDecision, SuperOver, WinningTeam, WonBy,
+    # method. Player_of_Match, Umpire1, Umpire2, Team1Players, Team2Players
+
+    # Converting date values to date time
     df['Date'] = pd.to_datetime(df['Date'])
 
+    # fixing 'Season' values, few values have 2008/09 so we're converting them to the 2008
     df['Season'] = df['Season'].apply(fix_season_value)
     df['Season'] = df['Season'].astype(int)
 
-    # df['Team1'] = df['Team1'].astype(str)
-    # df['Team2'] = df['Team2'].astype(str)
-    # df['Venue'] = df['Venue'].astype(str)
-    # df['TossWinner'] = df['TossWinner'].astype(str)
-    # df['TossDecision'] = df['TossDecision'].astype(str)
-    # df['SuperOver'] = df['SuperOver'].astype(str)
-    # df['WinningTeam'] = df['WinningTeam'].astype(str)
-    # df['WonBy'] = df['WonBy'].astype(str)
-
+    # Filling/Replacing the superover decided matches Margin(existing as NA) with -1
     df["Margin"].fillna(-1, inplace=True)
     df['Margin'] = df['Margin'].astype(int)
-
-    # df['method'] = df['method'].astype(str)
-    # df['Player_of_Match'] = df['Player_of_Match'].astype(str)
-    # df['Umpire1'] = df['Umpire1'].astype(str)
-    # df['Umpire2'] = df['Umpire2'].astype(str)
-    # df['Team1Players'] = df['Team1Players'].astype(str)
-    # df['Team2Players'] = df['Team2Players'].astype(str)
 
     df['Team1Players'] = df['Team1Players'].str.split(",")
     df['Team2Players'] = df['Team2Players'].str.split(",")
@@ -60,22 +50,13 @@ def clean(df=pd.DataFrame) -> pd.DataFrame:
 
 
 @task()
-def write_local(df: pd.DataFrame, file_name: str) -> Path:
-    """Write DataFrame out locally as parquet file"""
-    path = Path(f"data/{file_name}")
+def write_local(df: pd.DataFrame, file_name: str):
+    """
+        Write DataFrame out locally(in-memory) as parquet file and returns the content in bytes
+    """
     content = df.to_parquet(compression="gzip")
     print(type(content))
     return content
-
-
-@task()
-def write_gcs(path: Path, content) -> None:
-    """Upload local parquet file to GCS"""
-    # gcs_block = GcsBucket.load("zoom-gcs")
-    gcp_credentials = GcpCredentials.load("zoom-gcp-creds")
-    blob = cloud_storage_upload_blob_from_string(
-        content, GCP_BUCKET, path, gcp_credentials)
-    return blob
 
 
 @flow()
@@ -92,11 +73,10 @@ def etl_store_to_gcs() -> None:
         file_name = source.split("/")[-1]
         file_name = file_name.replace("zip", "parquet")
         content = write_local(df_clean, file_name)
-        # file_url = write_gcs(file_name, content)
-        gcp_credentials = GcpCredentials.load("zoom-gcp-creds")
-        blob = cloud_storage_upload_blob_from_string(
-            content, GCP_BUCKET, file_name, gcp_credentials)
-        print("file name/url: ", blob)
+        
+        url = cloud_storage_upload_blob_from_string(
+            content, GCP_BUCKET, file_name, GCP_CREDENTIALS)
+        print("file name/url in the GCP storage bucket: ", url)
 
 
 if __name__ == "__main__":
