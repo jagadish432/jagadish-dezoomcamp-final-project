@@ -8,7 +8,7 @@ gcs_block = GcsBucket.load("zoom-gcs")
 cloud_run_job_block = CloudRunJob.load("zoom-gcp-cloud-run")
 
 DEPLOYMENT_NAME = "fetch-ipl-data-cloud-run-job-deployment"
-OUTPUT_YAML_FILE_PATH = "/home/jagadish/jagadish-dezoomcamp-final-project/prefect/cloud-run-job-ouput.yaml"
+OUTPUT_YAML_FILE_PATH = "/home/jagadish/jagadish-dezoomcamp-final-project/prefect/cloud-run-job-ouput.yml"
 
 
 deployment = Deployment.build_from_flow(
