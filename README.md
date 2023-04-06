@@ -83,3 +83,21 @@ This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomca
     d. for more info, please refer - https://medium.com/the-prefect-blog/serverless-prefect-flows-with-google-cloud-run-jobs-23edbf371175
 
 
+## Spark pipeline
+### local running
+### spark-gcloud connection
+0. make sure you logged in already using `gcloud auth login`
+1. copy the gcloud connector hadoop library from gcloud onto the local directory `gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar lib/gcs-connector-hadoop3-2.2.5.jar` in order for us to be able to load data from files stored in the GCS bucket
+2. copy the gcloud connector bigquey library from gcloud to the local directory `gsutil cp gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar lib/spark-bigquery-latest_2.12.jar` in order for us to be able to read/write data from/to BigQuery.
+
+#### TODO
+1. write a local pyspark job to read gcs parquet files
+2. comeup with the join conditions needed for matches and balls data to bring batting/bowling/team statistics
+3. save them to the bigquery table
+4. create a dataproc cluster using terraform
+5. execute the 1,2,3 points using dataproc spark job
+
+
+## Dashboard
+1. create a google studio dashboard and fetch data from bigquery facts table created in the `Spark pipeline` step.
+

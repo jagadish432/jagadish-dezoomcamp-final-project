@@ -2,3 +2,5 @@
 *venv/
 *.yaml
 __pycache__/
+lib/
+.ipynb_checkpoints/
