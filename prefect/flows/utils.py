@@ -3,8 +3,43 @@ import pandas as pd
 
 
 def fix_season_value(season):
+    if season == "2007/08":
+        return "2008"
+    elif season == "2009/10":
+        return "2010"
+    elif season == "2020/2021":
+        return "2020"
     years = season.split("/")
     return years[0]
+
+def fix_wonby_value(wonby):
+    if wonby.lower() in ["wickets", "wicket"]:
+        return 'batting_2'
+    elif wonby.lower() in ['runs', 'run']:
+        return 'batting_1'
+    return wonby
+
+def replace_team_names():
+    return {
+        "Chennai Super Kings": "Chennai",
+        "Deccan Chargers": "Hyderabad",
+        "Delhi Capitals": "Delhi",
+        "Delhi Daredevils": "Delhi",
+        "Gujarat Lions": "Gujarat",
+        "Gujarat Titans": "Gujarat",
+        "Kings XI Punjab": "Punjab",
+        "Kochi Tuskers Kerala": "Kochi",
+        "Kolkata Knight Riders": "Kolkata",
+        "Lucknow Super Giants": "Lucknow",
+        "Mumbai Indians": "Mumbai",
+        "Pune Warriors": "Pune",
+        "Punjab Kings": "Punjab",
+        "Rajasthan Royals": "Rajasthan",
+        "Rising Pune Supergiant": "Pune",
+        "Rising Pune Supergiants": "Pune",
+        "Royal Challengers Bangalore": "Banglore",
+        "Sunrisers Hyderabad": "Hyderabad"
+    }
 
 def clean_match_data(df):
     """
@@ -47,6 +82,10 @@ def clean_match_data(df):
     df['season'] = df['season'].apply(fix_season_value)
     df['season'] = df['season'].astype(int)
 
+    # modifying 'wonBy' values, for wickets we will change it as 'batting_2' and for runs we 
+    # will change it as 'batting_1'
+    df['won_by'] = df['won_by'].apply(fix_wonby_value)
+
     # Filling/Replacing the superover decided matches Margin(existing as NA) with -1
     df["margin"].fillna(-1, inplace=True)
     df['margin'] = df['margin'].astype(int)
@@ -54,7 +93,13 @@ def clean_match_data(df):
     df['team1_players'] = df['team1_players'].str.split(",")
     df['team2_players'] = df['team2_players'].str.split(",")
 
-    
+    # replace team names with shortcuts, and also club old & new team names for same city franchise
+    df = df.replace(replace_team_names())
+    df = df[df['team1'].isin(replace_team_names().values())]
+    df = df[df['team2'].isin(replace_team_names().values())]
+    df = df[df['toss_winner'].isin(replace_team_names().values())]
+    df = df[df['winning_team'].isin(replace_team_names().values())]
+
     print(f"rows after match data cleansing: {len(df)}")
 
     return df

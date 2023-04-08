@@ -101,3 +101,46 @@ This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomca
 ## Dashboard
 1. create a google studio dashboard and fetch data from bigquery facts table created in the `Spark pipeline` step.
 
++--------------------+
+|               team1|
++--------------------+
+| Sunrisers Hyderabad|
+|Lucknow Super Giants|
+| Chennai Super Kings|
+|      Gujarat Titans|
+|Rising Pune Super...|
+|     Deccan Chargers|
+|Kochi Tuskers Kerala|
+|    Rajasthan Royals|
+|       Gujarat Lions|
+|Royal Challengers...|
+|Kolkata Knight Ri...|
+|Rising Pune Super...|
+|     Kings XI Punjab|
+|        Punjab Kings|
+|       Pune Warriors|
+|    Delhi Daredevils|
+|      Delhi Capitals|
+|      Mumbai Indians|
++--------------------+
+
+
+1. merge old & new team names
+2. change team names to shortcuts
+3. change wonby values to batting 1 /2 instead of wickets and runs
+4. change 2007/8 to 2008, and 2009/10 to 2010, and 2020/21 to 2020
+
+
+which_batting = None
+if winning_team == toss_winning_team:
+    if toss_decision == 'field':
+        which_batting = 'batting2'
+    elif toss_decision == 'bat':
+        which_batting = 'batting1
+
+
+elif winning_team != toss_winning_team:
+    if toss_decision == 'field':
+        which_batting = 'batting1'
+    elif toss_decision == ' bat':
+        which_batting = 'batting2'
