@@ -10,7 +10,7 @@ work_queue_name: default
 tags: []
 parameters: {}
 schedule:
-  cron: 50 18 * * *
+  cron: 15 16 * * *
   timezone: null
   day_or: true
 infra_overrides: {}
@@ -26,7 +26,7 @@ infrastructure:
   labels: {}
   name: null
   command: null
-  image: europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v3
+  image: europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v4
   region: europe-west6
   credentials:
     service_account_file: null

@@ -8,7 +8,7 @@ gcp_credentials_block = GcpCredentials.load("zoom-gcp-creds")
 
 # alternatively, we can also create this block in the prefect cloud UI manually
 cloud_run_block = CloudRunJob(
-    image="europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v3",  # insert your docker artifact image uri here
+    image="europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v4",  # insert your docker artifact image uri here
     region=os.environ['region'],
     cpu=1,
     memory=512,

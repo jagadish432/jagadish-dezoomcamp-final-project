@@ -63,8 +63,8 @@ This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomca
 ### pushing docker image to the GCP artifact repository
 0. `cd prefect/`
 1. copy repo path from GCP artifact console - `europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project`.
-2. `docker build -t europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v2 .`
-3. `docker push europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v2`, once pushed, we can also check the latest version in the gcp console - artifacts service page.
+2. `docker build -t europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v4 .`
+3. `docker push europe-west6-docker.pkg.dev/datazoomcamp-jagadish-final/ipl-project/ipl-2023:v4`, once pushed, we can also check the latest version in the gcp console - artifacts service page.
 4. provide the proper docker image's tag version in the `blocks/create_cloud_run_block.py` file and run `python blocks/create_cloud_run_block.py` 
 5.  and `python flows/cloud_run_job_deploy.py`
 6. now edit that yaml file schedule section to the required schedule we want by giving appropriate cron expressions like below for example:
