@@ -4,7 +4,7 @@ locals {
 
 variable "project" {
   description = "Your GCP Project ID"
-  default = "datazoomcamp-jagadish-final"
+  default = "ipl-project-383213"
   type = string 
 }
 

@@ -1,16 +1,29 @@
 # jagadish-dezoomcamp-final-project
 This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomcamp 
 
-## Need to run the below steps in the mentioned order to be able create all this project required resources in GCP cloud and test this project
+## Need to run the below steps in the mentioned order to be able create all the required resources for this project in GCP cloud, to deploy and test this project
 
 ## Pre-requisites
-1. make sure you have a gcp service account, go to `https://console.cloud.google.com/iam-admin/serviceaccounts?project=<gcp-project-name>` in this case `https://console.cloud.google.com/iam-admin/serviceaccounts?project=datazoomcamp-jagadish-final` 
-2. select the service account and select `manage keys`
-3. select `Add key` and `JSON` and save the automatically downloaded .json file somewhere in a safe location
-4. `gcloud auth login`, click on the link, allow access, copy the code and paste in the terminal prompting for the authorization code
-5. verify if the project is already set with your required project `gcloud config get project`
-6. if not, then `gcloud config set project <gcp-project-name>`
-7. To set the gcloud automatically access the required project, follow either of the below approaches
+0. Have a GCP account and create a project in GCP console
+1. Go to `Service Accounts` in the GCP Console, and create a service account and grant the following access to it.
+    (We shouldn't usually grant admin access in the production, however, for this testing we can gran them)
+    a. Bigquery Admin
+    b. Storage Admin
+    c. Artifact Registry Admin
+    d. Dataproc Admin
+    Also, add the below principals to the service acocunt
+    a. Google APIs Service Agent
+
+2. Select the service account and select `manage keys` and Add a key to the service account and and save the automatically downloaded .json file somewhere in a safe location
+3. Have the gcloud cli in the system you're planning to test this, store the above json key file in `~/.gc/`
+4. Run `gcloud auth activate-service-account --key-file <path to the json file of the service account we want to use>`
+5. Verify if service account has been added or not by `gcloud config list`
+6. verify if the project is already set with your required project `gcloud config get project`
+7. if not, then `gcloud config set project <gcp-project-id-from-gcp>`
+8. run `gcloud auth application-default login`
+
+FYI(Optional)
+9. To set the gcloud automatically access the required project, follow either of the below approaches
     a. REFRESH TOKEN approach
         1. run `gcloud auth application-default login` and enter Y when prompted, click on the link provided and login to the gcp console and copy the authorization code and paste in the terminal where prompted
         2. verify `~/.config/gcloud/application_default_credentials.json` it has the updated and the required project creds now
@@ -22,8 +35,12 @@ This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomca
         4. keep the above export command in your bash profile file to make it permanent env variable i.e., you wouldn't need to set everytime you open a terminal
 
 ## Terraform
+A. Change to `terraform` directory - i.e., run `cd terraform/` 
+B. Enable the APIs - billing, artifact, dataproc in the gcp console
+C. 
+
 1. `terraform init`
-2. `terraform apply`
+2. `terraform apply -var 'project=<project-id-from-gcp>`
 3. `terraform output` to validate the output values
 
 
@@ -96,7 +113,7 @@ This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomca
 ### DataProc job with DataProc cluster in GCP using terraform
 1. for dataproc job, we use the same code but without any jars usage, because it is need only for local runs, they're not needed in GCP environment.
 2. we copied the same code another file and removed those jars usage. file name is `generate_stats_dataproc.py`
-3.  
+3. 
 
 
 
