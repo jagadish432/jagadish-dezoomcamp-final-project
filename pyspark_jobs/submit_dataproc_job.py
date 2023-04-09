@@ -15,7 +15,7 @@ def submit_job(project_id, region, cluster_name):
     job = {
         "placement": {"cluster_name": cluster_name},
         "pyspark_job": {
-            "main_python_file_uri": "gs://jagadish_data_lake_datazoomcamp-jagadish-final/generate_stats_dataproc.py",
+            "main_python_file_uri": "gs://jagadish_data_lake_optimum-attic-383216/generate_stats_dataproc.py",
             "jar_file_uris": ["gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar"],
             "args": [],
         },
@@ -40,7 +40,7 @@ def submit_job(project_id, region, cluster_name):
     print(f"Job finished successfully: {output}")
 
 def handler():
-    submit_job('datazoomcamp-jagadish-final', 'europe-west6', 'jagadish-datazoomcamp-final')
+    submit_job('optimum-attic-383216', 'europe-west6', 'jagadish-datazoomcamp-final')
 
 if __name__ == "__main__":
-    submit_job('datazoomcamp-jagadish-final', 'europe-west6', 'jagadish-datazoomcamp-final')
+    submit_job('optimum-attic-383216', 'europe-west6', 'jagadish-datazoomcamp-final')

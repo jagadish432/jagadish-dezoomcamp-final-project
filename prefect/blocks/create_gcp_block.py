@@ -8,7 +8,8 @@ GCP_BUCKET = os.environ.get('gcp_bucket', 'no_bucket_name')
 # insert your own service_account_file path or service_account_info dictionary from the json file
 # IMPORTANT - do not store credentials in a publicly available repository!
 
-content =open("/home/jagadish/.gc/finaldatazoomcamp.json", "r").read() 
+creds_path = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+content =open(creds_path, "r").read() 
 
 credentials_block = GcpCredentials(
     service_account_info=content # enter your credentials info or use the file method.

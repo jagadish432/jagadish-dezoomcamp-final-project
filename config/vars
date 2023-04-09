@@ -1,4 +1,4 @@
 export BQ_DATASET='ipl_data'
 export region='europe-west6'
-export gcp_project='datazoomcamp-jagadish-final'
+export gcp_project='optimum-attic-383216'
 export gcp_bucket='jagadish_data_lake_'$gcp_project
