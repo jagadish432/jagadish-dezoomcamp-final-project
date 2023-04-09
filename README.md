@@ -4,46 +4,35 @@ This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomca
 ## Need to run the below steps in the mentioned order to be able create all the required resources for this project in GCP cloud, to deploy and test this project
 
 ## Pre-requisites
+### VM machine setup
+All GCP compute instances  by default comes with `gcloud` SDK in-built
+1. add `alias python=python3` in bashrc file
+2. `sudo apt-get update`
+3. `sudo apt-get install docker.io`
+4. To make docker work without sudo
+    a. `sudo groupadd docker`
+    b. `sudo gpasswd -a $USER docker`
+    c. `sudo service docker restart`
+5. `sudo apt-get install unzip` and same for wget
+6. copy terraform binary inside ~/bin folder(created if bin doesnt exist), unzip and remove the zip file
+7. add `export PATH="${HOME}/bin:${PATH}"` at end of ~/.bashrc file
+
+### VM machine - to - GCP setup
 0. Have a GCP account and create a project in GCP console
-1. Go to `Service Accounts` in the GCP Console, and create a service account and grant the following access to it.
-    (We shouldn't usually grant admin access in the production, however, for this testing we can gran them)
-    a. Bigquery Admin
-    b. Storage Admin
-    c. Artifact Registry Admin
-    d. Dataproc Admin
-    Also, add the below principals to the service acocunt
-    a. Google APIs Service Agent
-
-2. Select the service account and select `manage keys` and Add a key to the service account and and save the automatically downloaded .json file somewhere in a safe location
+1. Go to `Service Accounts` in the GCP Console, Select the service account and select `manage keys` and Add a key to the service account and and save the automatically downloaded .json file somewhere in a safe location
 3. Have the gcloud cli in the system you're planning to test this, store the above json key file in `~/.gc/`
-4. Run `gcloud auth activate-service-account --key-file <path to the json file of the service account we want to use>`
-5. Verify if service account has been added or not by `gcloud config list`
-6. verify if the project is already set with your required project `gcloud config get project`
-7. if not, then `gcloud config set project <gcp-project-id-from-gcp>`
-8. run `gcloud auth application-default login`
-
-FYI(Optional)
-9. To set the gcloud automatically access the required project, follow either of the below approaches
-    a. REFRESH TOKEN approach
-        1. run `gcloud auth application-default login` and enter Y when prompted, click on the link provided and login to the gcp console and copy the authorization code and paste in the terminal where prompted
-        2. verify `~/.config/gcloud/application_default_credentials.json` it has the updated and the required project creds now
-        3. `unset GOOGLE_APPLICATION_CREDENTIALS`
-    b. To use the download gcp creds file directly(json file)
-        1. cd to `~/.gc/`
-        2. create a json file and copy the content
-        3. now set the env variable `export GOOGLE_APPLICATION_CREDENTIALS=~/.gc/<json file_name>`
-        4. keep the above export command in your bash profile file to make it permanent env variable i.e., you wouldn't need to set everytime you open a terminal
+4. add `export GOOGLE_APPLICATION_CREDENTIALS=~/.gc/creds.json` in the bashrc file
+5. `gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS`
 
 ## Terraform
 A. Change to `terraform` directory - i.e., run `cd terraform/` 
 B. Enable the APIs - billing, artifact, dataproc in the gcp console
-C. 
 
 1. `terraform init`
 2. `terraform apply -var 'project=<project-id-from-gcp>`
-3. `terraform output` to validate the output values
+3. `terraform output` to validate/check the output values
 
-
+----
 ## venv & prefect cli setup
 0. signup at https://www.prefect.io/cloud/ and then login, and create a workspace with name 'ipl-project'
 1. `python -m venv ipl_venv`

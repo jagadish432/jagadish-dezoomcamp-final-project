@@ -1,7 +1,3 @@
-# resource "google_service_account" "default" {
-#   account_id   = "service-account-id"
-#   display_name = var.DATAPROC_CLSUTER
-# }
 
 resource "google_dataproc_cluster" "mycluster" {
   name     = var.DATAPROC_CLSUTER
@@ -46,18 +42,18 @@ resource "google_dataproc_cluster" "mycluster" {
 }
 
 # Submit an example pyspark job to a dataproc cluster
-resource "google_dataproc_job" "pyspark" {
-  region       = google_dataproc_cluster.mycluster.region
-  force_delete = true
-  placement {
-    cluster_name = google_dataproc_cluster.mycluster.name
-  }
-
-  pyspark_config {
-    main_python_file_uri = "gs://${google_storage_bucket.data-lake-bucket.name}/${google_storage_bucket_object.pyspark_file.name}"
-    jar_file_uris=["gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar"]
-    properties = {
-      "spark.logConf" = "true"
-    }
-  }
-}
+#resource "google_dataproc_job" "pyspark" {
+# region       = google_dataproc_cluster.mycluster.region
+#  force_delete = true
+#  #placement {
+#    cluster_name = google_dataproc_cluster.mycluster.name
+#  }
+#
+#  pyspark_config {
+#    main_python_file_uri = "gs://${google_storage_bucket.data-lake-bucket.name}/${google_storage_bucket_object.pyspark_file.name}"
+#    jar_file_uris=["gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar"]
+#    properties = {
+#      "spark.logConf" = "true"
+#    }
+#  }
+#}
