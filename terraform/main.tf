@@ -40,6 +40,18 @@ resource "google_storage_bucket" "data-lake-bucket" {
   force_destroy = true
 }
 
+resource "google_storage_bucket_object" "pyspark_file" {
+  name   = "generate_stats_dataproc.py"
+  source = "../pyspark_jobs/generate_stats_dataproc.py"
+  bucket = google_storage_bucket.data-lake-bucket.name
+}
+
+resource "google_storage_bucket_object" "python_trigger_dataproc" {
+  name   = "submit_dataproc_job.py"
+  bucket = google_storage_bucket.data-lake-bucket.name
+  source = "../pyspark_jobs/submit_dataproc_job.py"
+}
+
 # DWH
 # Ref: https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/bigquery_dataset
 resource "google_bigquery_dataset" "dataset" {

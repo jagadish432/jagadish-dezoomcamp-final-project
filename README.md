@@ -93,6 +93,11 @@ This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomca
 5. `cd pyspark_jobs/`
 5. now, run the python file `python generate_stats.py`
 
+### DataProc job with DataProc cluster in GCP using terraform
+1. for dataproc job, we use the same code but without any jars usage, because it is need only for local runs, they're not needed in GCP environment.
+2. we copied the same code another file and removed those jars usage. file name is `generate_stats_dataproc.py`
+3.  
+
 
 
 

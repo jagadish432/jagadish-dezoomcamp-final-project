@@ -24,3 +24,9 @@ variable "BQ_DATASET" {
   type = string
   default = "ipl_data"
 }
+
+variable "DATAPROC_CLSUTER" {
+  description = "Dataproc cluster which helps our dataproc job to run on"
+  type = string
+  default = "jagadish-datazoomcamp-final"
+}
