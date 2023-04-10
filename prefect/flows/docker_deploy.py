@@ -6,7 +6,7 @@ from prefect.infrastructure.docker import DockerContainer
 docker_container_block = DockerContainer.load("zoom-docker")
 
 DEPLOYMENT_NAME = "fetch-ipl-data-docker-deployment"
-OUTPUT_YAML_FILE_PATH = "/home/jagadish/jagadish-dezoomcamp-final-project/prefect/ouput.yaml"
+OUTPUT_YAML_FILE_PATH = "./ouput.yaml"
 
 docker_dep = Deployment.build_from_flow(
     flow=etl_store_to_gcs,

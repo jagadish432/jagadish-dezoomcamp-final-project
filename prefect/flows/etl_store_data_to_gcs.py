@@ -65,8 +65,10 @@ def etl_store_to_gcs() -> None:
         df_clean = clean(df, dataset_type=source['type'])
         file_name = source['data'].split("/")[-1]
         file_name = file_name.replace("zip", "parquet")
+        print("reading the data in-memory")
         content = write_local(df_clean, file_name)
-        
+
+        print("pushing data to GCP storage - datalake")
         url = cloud_storage_upload_blob_from_string(content, GCP_BUCKET, file_name, GCP_CREDENTIALS)
         print("file name/url in the GCP storage bucket: ", url)
 

@@ -6,9 +6,9 @@ RUN pip install -r requirements.txt --trusted-host pypi.python.org --no-cache-di
 
 COPY flows/ /opt/prefect/flows/
 
-ENV gcp_bucket=jagadish_data_lake_datazoomcamp-jagadish-final
+ENV project_name=${project_name}
 
-RUN echo $gcp_bucket
+RUN echo $project_name
 # ENV PREFECT_API_URL=http://0.0.0.0:4200/api
 
 # RUN prefect config set PREFECT_API_URL="${PREFECT_API_URL}"

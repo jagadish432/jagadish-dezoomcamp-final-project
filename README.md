@@ -27,52 +27,8 @@ Please refer this [prefect.md file](./prefect.md) for more information.
 
 
 
-## Prefect
-A. provide the gcp projectID/name in config/vars file to the 'gcp_project' variable.
 
-0. `source ../config/vars`
-1. `python blocks/create_gcp_block.py`
 
-for deployment you can choose - plain python file deployment, docker hub docker image deployment Or the GCP cloud run docker image deployment
-
-### 1st-approach - plain python file deployment
-2. `prefect deployment build flows/etl_store_data_to_gcs.py:etl_store_to_gcs -n "deploy ETL job for web to gcs bucket" --cron "*/5 * * * *"`
-3. `prefect deployment apply etl_store_to_gcs-deployment.yaml`
-4. `prefect agent start -q 'default'` to start the agent locally
-
-### 2nd approach - build docker file instead of normal python file deployment
-0. Chane Directory to PREFECT folder - `cd prefect/`
-5. build docker image - `docker build -t 4329/etl_store_to_gcs:ipl-project-new ./`
-6. push docker image to docker hub repo - `docker push 4329/etl_store_to_gcs:ipl-project-new`
-7. create a prefect block for infrastructure to pull from docker repo - `python blocks/create_docker_block.py`
-8. create a deployment from flow and docker-infra prefect block and trigger a deployment `python flows/docker_deploy.py` (make sure you have an agent running to handle this deployment job) - This step will trigger a deployment and will wait for result, and once the agent runs the job it will return status to this call and this code will print that status at the end.
-9. somehow, this prefect `run_deployment` is not taking schedule expressions, and 1 github issue says it's a bug, so I've comeup with another approach.
-
-### DIFF APPROACH - still with dockerhub docker file
-10. we will still follow the above points - 5,6,7,8 (but the file in 8th step has a little changes that it won't trigger any job and now it'll create an output.yaml file in the local)
-11. now edit that yaml file schedule section to the required schedule we want by giving appropriate cron expressions.
-12. run `prefect deployment apply ouput.yaml` to apply the schedule which will auto-trigger the jobs, however, even at this point also the agent should run by us locally.
-
-### 3rd approach - pushing docker image to the GCP artifact repository
-0. `cd prefect/`
-1. copy repo path from GCP artifact console - `europe-west6-docker.pkg.dev/optimum-attic-383216/ipl-project`.
-2. `docker build -t europe-west6-docker.pkg.dev/optimum-attic-383216/ipl-project/ipl-2023:v1 .`
-3. `docker push europe-west6-docker.pkg.dev/optimum-attic-383216/ipl-project/ipl-2023:v1`, once pushed, we can also check the latest version in the gcp console - artifacts service page.
-4. provide the proper docker image's tag version in the `blocks/create_cloud_run_block.py` file and run `python blocks/create_cloud_run_block.py` 
-5.  and `python flows/cloud_run_job_deploy.py`
-6. now edit that yaml file schedule section to the required schedule we want by giving appropriate cron expressions like below for example:
-    ```schedule:
-        cron: 30 16 * * *
-        timezone: null
-        day_or: true
-    ```
-8. run `prefect deployment apply cloud-run-job-ouput.yml` to apply the schedule which will auto-trigger the jobs, even at this point also the agent should run by us *locally* . However, the actual flow runs are handled/exeucted by google cloud run jobs.
-
-9. *This gcp cloud run jobs approach gives us the following benefits* :
-    a. scalable serverless flows to handle multiple requests/flows
-    b. setting up is easy, we just need a prefect block for infra code with gcp cloud run infra
-    c. the gcp creds and cloud run infra block needs to be created once but can use many times by multiple flows
-    d. for more info, please refer - https://medium.com/the-prefect-blog/serverless-prefect-flows-with-google-cloud-run-jobs-23edbf371175
 
 
 ## Spark pipeline
