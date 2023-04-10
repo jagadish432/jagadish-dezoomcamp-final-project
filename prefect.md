@@ -58,7 +58,7 @@ for every 5 minutes
 8. run `prefect deployment apply cloud-run-job-ouput.yml` to apply the schedule which will auto-trigger the jobs, even at this point also the agent should run by us *locally* . However, the actual flow runs are handled/exeucted by google cloud run jobs.
 
 9. * This gcp cloud run jobs approach gives us the following benefits * :
-    a. scalable serverless flows to handle multiple requests/flows along with scalable Memory,CPUs for the jobs/workers.
-    b. setting up is easy, we just need a prefect block for infra code with gcp cloud run infra
-    c. the gcp creds and cloud run infra block needs to be created once but can use many times by multiple flows
-    d. for more info, please refer - https://medium.com/the-prefect-blog/serverless-prefect-flows-with-google-cloud-run-jobs-23edbf371175
+    i. scalable serverless flows to handle multiple requests/flows along with scalable Memory,CPUs for the jobs/workers.
+    ii. setting up is easy, we just need a prefect block for infra code with gcp cloud run infra
+    iii. the gcp creds and cloud run infra block needs to be created once but can use many times by multiple flows
+    iv. for more info, please refer - https://medium.com/the-prefect-blog/serverless-prefect-flows-with-google-cloud-run-jobs-23edbf371175
