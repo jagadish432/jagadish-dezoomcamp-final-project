@@ -1,4 +1,14 @@
-export BQ_DATASET='ipl_data'
+# region variable
 export region='europe-west6'
-export gcp_project='optimum-attic-383216'
-export gcp_bucket='jagadish_data_lake_'$gcp_project
+
+
+# GCP project ID
+export gcp_project_id='optimum-attic-383216'
+# Terraform gcp project ID variable
+export TF_VAR_project_id=$gcp_project_id
+
+
+# project name
+export project_name='ipl-data-analysis'
+# Terraform project name variable
+export TF_VAR_project_name=$project_name

@@ -1,8 +1,9 @@
-locals {
-  data_lake_bucket = "jagadish_data_lake"
+variable "project_name" {
+  description = "name of the project, we use this for all of our gcp resources names"
+  type = string
 }
 
-variable "project" {
+variable "project_id" {
   description = "Your GCP Project ID"
   type = string 
 }
@@ -16,16 +17,4 @@ variable "region" {
 variable "storage_class" {
   description = "Storage class type for your bucket. Check official docs for more info."
   default = "STANDARD"
-}
-
-variable "BQ_DATASET" {
-  description = "BigQuery Dataset that raw data (from GCS) will be written to"
-  type = string
-  default = "ipl_data"
-}
-
-variable "DATAPROC_CLSUTER" {
-  description = "Dataproc cluster which helps our dataproc job to run on"
-  type = string
-  default = "jagadish-datazoomcamp-final"
 }

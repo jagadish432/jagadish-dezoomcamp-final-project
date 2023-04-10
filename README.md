@@ -4,33 +4,13 @@ This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomca
 ## Need to run the below steps in the mentioned order to be able create all the required resources for this project in GCP cloud, to deploy and test this project
 
 ## Pre-requisites
-### VM machine setup
-All GCP compute instances  by default comes with `gcloud` SDK in-built
-1. add `alias python=python3` in bashrc file
-2. `sudo apt-get update`
-3. `sudo apt-get install docker.io`
-4. To make docker work without sudo
-    a. `sudo groupadd docker`
-    b. `sudo gpasswd -a $USER docker`
-    c. `sudo service docker restart`
-5. `sudo apt-get install unzip` and same for wget
-6. copy terraform binary inside ~/bin folder(created if bin doesnt exist), unzip and remove the zip file
-7. add `export PATH="${HOME}/bin:${PATH}"` at end of ~/.bashrc file
+We need to setup the system, incase we're planning to test this project. 
+Please refer the file [setup.md](./setup.md) for more details.
 
-### VM machine - to - GCP setup
-0. Have a GCP account and create a project in GCP console
-1. Go to `Service Accounts` in the GCP Console, Select the service account and select `manage keys` and Add a key to the service account and and save the automatically downloaded .json file somewhere in a safe location
-3. Have the gcloud cli in the system you're planning to test this, store the above json key file in `~/.gc/`
-4. add `export GOOGLE_APPLICATION_CREDENTIALS=~/.gc/creds.json` in the bashrc file
-5. `gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS`
 
 ## Terraform
-A. Change to `terraform` directory - i.e., run `cd terraform/` 
-B. Enable the APIs - billing, artifact, dataproc, cloud run in the gcp console
-
-1. `terraform init`
-2. `terraform apply -var 'project=<project-id-from-gcp>`
-3. `terraform output` to validate/check the output values
+We need to create some infrastructure over a cloud(in this case I'm using Google Cloud), so we're using `terraform` for IaC(Infrastructure as Code) to deploy the resources in an efficient manner.
+Please refer the file [terraform.md](./terraform.md) for more details.
 
 
 ## venv & PREFECT cli setup

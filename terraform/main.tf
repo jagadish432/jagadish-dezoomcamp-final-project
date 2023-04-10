@@ -9,16 +9,15 @@ terraform {
 }
 
 provider "google" {
-  project = var.project
+  project = var.project_id
   region = var.region
-  // credentials = file(var.credentials)  # Use this if you do not want to set env-var GOOGLE_APPLICATION_CREDENTIALS
 }
 
 # Data Lake Bucket
 # Ref: https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket
 
 resource "google_storage_bucket" "data-lake-bucket" {
-  name          = "${local.data_lake_bucket}_${var.project}" # Concatenating DL bucket & Project name for unique naming
+  name          = "${var.project_name}"
   location      = var.region
 
   # Optional, but recommended settings:
@@ -47,24 +46,25 @@ resource "google_storage_bucket_object" "pyspark_file" {
   bucket = google_storage_bucket.data-lake-bucket.name
 }
 
-resource "google_storage_bucket_object" "python_trigger_dataproc" {
-  name   = "submit_dataproc_job.py"
-  bucket = google_storage_bucket.data-lake-bucket.name
-  source = "../pyspark_jobs/submit_dataproc_job.py"
-}
+# # not used for now, but this can be sued for auto triggering the dataproc job
+# resource "google_storage_bucket_object" "python_trigger_dataproc" {
+#   name   = "submit_dataproc_job.py"
+#   bucket = google_storage_bucket.data-lake-bucket.name
+#   source = "../pyspark_jobs/submit_dataproc_job.py"
+# }
 
-# DWH
+# DataWare House
 # Ref: https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/bigquery_dataset
 resource "google_bigquery_dataset" "dataset" {
-  dataset_id = var.BQ_DATASET
-  project    = var.project
+  dataset_id = replace(var.project_name, "-", "_")
+  project    = var.project_id
   location   = var.region
 }
 
-
+# Artifact repository for docker images
 resource "google_artifact_registry_repository" "ipl-project" {
   location = var.region
-  repository_id = "ipl-project"
+  repository_id = var.project_name
   description = "Jagadeesh Dachepalli's IPL project google artifact repository"
   format = "DOCKER"
 }

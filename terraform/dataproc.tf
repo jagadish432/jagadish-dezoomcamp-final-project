@@ -1,6 +1,6 @@
 
 resource "google_dataproc_cluster" "mycluster" {
-  name     = var.DATAPROC_CLSUTER
+  name     = var.project_name
   region   = var.region
   graceful_decommission_timeout = "120s"
   labels = {
