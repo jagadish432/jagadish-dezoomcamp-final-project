@@ -12,7 +12,8 @@ This project is to use the IPL dataset for the IPL data from 2008-2022 years, an
 
 * The Dashboards are shared publicly to view, the details are mentioned at the last section of this page.
 
-* The workflow is illustrated [**here**](./flow.jpg)
+* The workflow is illustrated below
+    ![here](./flow.jpg)
 
 <br/>
 
@@ -71,7 +72,7 @@ Please remember that this IPL tournament has happened every year from 2008 to 20
     1. This has 2 charts -  1st chart(table) shows number of matches played at each venue and the 2nd 
     chart(pie graph) shows percentages of matches won by batting 1st vs batting 2nd vs matches won in an superover result.
     2. URL - https://lookerstudio.google.com/reporting/5109b6af-c929-4dd2-9f27-be979d92761d/page/io1LD
-    ![dahsboard](./dashboard-1.png)
+    ![dashboard](./dashboard-1.png)
 
 
 <br/>
@@ -79,7 +80,8 @@ Please remember that this IPL tournament has happened every year from 2008 to 20
 2. **Dashboard - 2** : This is created using the `team_stats` table which we created and inserted data in the pyspark pipeline using some SQL transformations (union, group by, sort). 
     1. It shows 'total number of matches palyed vs total number of matches won' by each team so far in this tournament (includes all matches form 2008-2022)
     2. URL - https://lookerstudio.google.com/reporting/590f3b48-bdb9-4bf3-924f-e75648bbfe74/page/Sq1LD
-    ![dahsboard](./dashboard-2.png)
+    
+    ![dashboard](./dashboard-2.png)
 <br/>
 
 3. **Dashboard - 3** : This is created using the `batting_stats` table/data which we created as part of the same pyspark pipeline using SQL transformations(Join, GroupBy, Sum aggregations, sort). 
@@ -87,4 +89,5 @@ Please remember that this IPL tournament has happened every year from 2008 to 20
         1. Also, it has some additional feature i.e., a drop-down to select 1 or multiple batsman
         2. The drop-down shows top 5 run-getters(batsmen).
     2. URL - https://lookerstudio.google.com/reporting/1f70d4c6-ab99-4402-9af5-a2a3bf52c479/page/kl2LD
-    ![dahsboard](./dashboard-3.png)
+    
+    ![dashboard](./dashboard-3.png)
