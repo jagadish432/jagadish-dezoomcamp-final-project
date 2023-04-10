@@ -1,6 +1,22 @@
 # jagadish-dezoomcamp-final-project
 This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomcamp 
 
+
+## Technical Details
+1. DataLake: Google Cloud Platform Storage(GCS)
+2. DataWarehouse: BigQuery
+3. Workflow Orchestration: Prefect
+    a. Flow scheduler: Prefect
+    b. Agent: local/VM machine
+    c. job workers: GCP Cloud run job
+4. Transformations: Pyspark
+5. IaC: Terraform
+6. Dashboards: Google Looker data studio
+
+7. The Dashboards are shared publicly to view, the details are mentioned at the last section of this page.
+8. The workflow is illustrated [here](./flow.jpg)
+
+
 ### Need to run the below steps in the mentioned order to be able create all the required resources for this project in GCP cloud, to deploy and test this project
 
 ## Pre-requisites
@@ -25,28 +41,8 @@ Please refer the file [terraform.md](./terraform.md) for more details.
 Please refer this [prefect.md file](./prefect.md) for more information.
 
 
-
-
-
-
-
-
-## Spark pipeline
-
-### local running with spark-gcloud connection for bigquery and gcp buckets(optional)
-0. make sure you logged in already using `gcloud auth login`
-1. copy the gcloud connector hadoop library from gcloud onto the local directory `gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar lib/gcs-connector-hadoop3-2.2.5.jar` in order for us to be able to load data from files stored in the GCS bucket
-2. copy the gcloud connector bigquey library from gcloud to the local directory `gsutil cp gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar lib/spark-bigquery-latest_2.12.jar` in order for us to be able to read/write data from/to BigQuery.
-3. convert the jupyter notebook(which we could use for local testing) to a python file using `jupyter nbconvert --to=script generate_stats.ipynb `
-4. Edit the python file as per your needs.
-5. `cd pyspark_jobs/`
-5. now, run the python file `python generate_stats.py`
-
-### DataProc job with DataProc cluster in GCP using python file
-A. CD to `pyspark_jobs` folder
-1. change the gcp project name in the file `generate_stats_dataproc.py`
-2. now run `gsutil cp generate_stats_dataproc.py gs://jagadish_data_lake_optimum-attic-383216/generate_stats_dataproc.py`
-3. but we run trigger a dataproc job using another python file. run `python submit_dataproc_job.py`
+## Pyspark pipeline
+Please refer this [pyspark.md file](./pyspark.md) for more information.
 
 
 

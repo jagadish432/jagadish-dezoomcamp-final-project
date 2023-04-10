@@ -1,21 +1,24 @@
-import pyspark
+import pyspark, os
 from time import time
 from pyspark.sql import SparkSession
 from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
+
+project_name = "ipl-data-analysis"
+project_id = "optimum-attic-383216"
 
 start = time()
 
 spark = SparkSession.builder.appName('generate_stats').getOrCreate()
 
 # IPL matches data
-ipl_matches_data_gcs_path = "gs://jagadish_data_lake_optimum-attic-383216/IPL_Matches_2008_2022.parquet"
+ipl_matches_data_gcs_path = "gs://" + project_name + "/IPL_Matches_2008_2022.parquet"
 ipl_matches = spark.read.parquet(ipl_matches_data_gcs_path)
 
 # store matches data into BigQuery table
 ipl_matches.write.partitionBy("season").format("bigquery").mode('Overwrite') \
-    .option("parentProject", "optimum-attic-383216") \
-    .option("temporaryGcsBucket","jagadish_data_lake_optimum-attic-383216") \
+    .option("parentProject", project_id) \
+    .option("temporaryGcsBucket",project_name) \
     .option('table', 'ipl_data.matches').save()
 # register as table to use as a SQL table using spark
 ipl_matches.registerTempTable('matches')
@@ -51,18 +54,18 @@ teams_stats = teams_stats.withColumnRenamed('sum(matches_played)', 'matches_play
 
 # writing teams statistics yearwise
 teams_stats.write.format("bigquery").mode('Overwrite') \
-    .option("parentProject", "optimum-attic-383216") \
-    .option("temporaryGcsBucket","jagadish_data_lake_optimum-attic-383216") \
+    .option("parentProject", project_id) \
+    .option("temporaryGcsBucket",project_name) \
     .option('table', 'ipl_data.teams_stats').save()
 
 # IPL ball by ball data for every match
-ipl_ball_by_ball_data_gcs_path = "gs://jagadish_data_lake_optimum-attic-383216/IPL_Ball_by_Ball_2008_2022.parquet"
+ipl_ball_by_ball_data_gcs_path = "gs://" + project_name +  "/IPL_Ball_by_Ball_2008_2022.parquet"
 ipl_ball_by_ball = spark.read.parquet(ipl_ball_by_ball_data_gcs_path)
 
 # store scores data into BigQuery table
 ipl_ball_by_ball.write.format("bigquery").mode('Overwrite') \
-    .option("parentProject", "optimum-attic-383216") \
-    .option("temporaryGcsBucket","jagadish_data_lake_optimum-attic-383216") \
+    .option("parentProject", project_id) \
+    .option("temporaryGcsBucket",project_name) \
     .option('table', 'ipl_data.scores').save()
 # register as table to use as a SQL table using spark
 ipl_ball_by_ball.registerTempTable('ball_by_ball')
@@ -81,8 +84,8 @@ batting_stats = result.groupBy('season', 'b.batter').sum('batsman_run') \
 
 # writing batting statistics yearwise
 batting_stats.write.partitionBy("season").format("bigquery").mode('Overwrite') \
-    .option("parentProject", "optimum-attic-383216") \
-    .option("temporaryGcsBucket","jagadish_data_lake_optimum-attic-383216") \
+    .option("parentProject", project_id) \
+    .option("temporaryGcsBucket",project_name) \
     .option('table', 'ipl_data.batting_stats').save()
 
 # BOWLING Stats - but not stored anywhere as of now.

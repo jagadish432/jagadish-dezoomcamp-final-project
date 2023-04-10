@@ -17,4 +17,6 @@
 3. Have the gcloud cli on the system you're planning to test this, store the above json key file in `~/.gc/` (create if .gc folder doesn't exist)
 4. Add `export GOOGLE_APPLICATION_CREDENTIALS=~/.gc/creds.json` in the bashrc file
 5. Run `gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS` to link a service account on the VM/system we're working on.
-6. Provide the gcp project id to the variabele `gcp_project_id` in this [var file](./config/vars) and run `source config/vars`
+6. Provide the gcp project id to the variabele `gcp_project_id` in this [var file](./config/vars) 
+7. Provide the GCP project ID and porject Name to the 'project_id' and 'project_name' variables in the [pyspark file](./pyspark_jobs/generate_stats_dataproc.py) respectively.
+8. Now, run `source config/vars`

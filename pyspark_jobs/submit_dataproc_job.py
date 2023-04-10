@@ -1,10 +1,14 @@
-import re
+import re, os
 
 from google.cloud import dataproc
 from google.cloud import storage
 
+project_name = os.environ['project_name']
+project_id = os.environ['gcp_project_id']
+region = os.environ['region']
 
-def submit_job(project_id, region, cluster_name):
+
+def submit_job():
     # Create the job client.
     job_client = dataproc.JobControllerClient(
         client_options={"api_endpoint": "{}-dataproc.googleapis.com:443".format(region)}
@@ -13,9 +17,9 @@ def submit_job(project_id, region, cluster_name):
     # Create the job config. 'main_jar_file_uri' can also be a
     # Google Cloud Storage URL.
     job = {
-        "placement": {"cluster_name": cluster_name},
+        "placement": {"cluster_name": project_name},
         "pyspark_job": {
-            "main_python_file_uri": "gs://jagadish_data_lake_optimum-attic-383216/generate_stats_dataproc.py",
+            "main_python_file_uri": "gs://" + project_name + "/generate_stats_dataproc.py",
             "jar_file_uris": ["gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar"],
             "args": [],
         },
@@ -40,7 +44,7 @@ def submit_job(project_id, region, cluster_name):
     print(f"Job finished successfully: {output}")
 
 def handler():
-    submit_job('optimum-attic-383216', 'europe-west6', 'jagadish-datazoomcamp-final')
+    submit_job()
 
 if __name__ == "__main__":
-    submit_job('optimum-attic-383216', 'europe-west6', 'jagadish-datazoomcamp-final')
+    submit_job()
