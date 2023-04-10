@@ -1,18 +1,23 @@
 # jagadish-dezoomcamp-final-project
 This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomcamp 
 
+## Problem description
+This project is all about the IPL tournament. IPL also knows as Indian Premiure League is one of the highly rated and popular cricket tournament across the globe. It's hosted by India, however, players from different countries around the world participate in this competitive league. It has completed 15 seasons till now and the 16th edition (IPl 2023) is just started and going-on.
+
+Everytime the fans/viewers want to see the top stats by players/teams, so this is a kind of project to help them view the stats from the data which updates periodically.
+
+This project is to use the IPL dataset for the IPL data from 2008-2022 years, and display some useful information/statistics for the viewers/fans. Although this project is only aimed at brining some visual graphs, this can be even more groomed so that it even helps the players and the team franchises to make some decisions through out the tournament.
 
 ## Technical Details
 1. DataLake: Google Cloud Platform Storage(GCS)
-2. DataWarehouse: BigQuery
-3. Workflow Orchestration: Prefect
+2. DataWarehouse: BigQuery 
+3. Workflow Orchestration: Prefect (runs an ETL job to store the data from external source to the data lake)
     a. Flow scheduler: Prefect
     b. Agent: local/VM machine
     c. job workers: GCP Cloud run job
-4. Transformations: Pyspark
-5. IaC: Terraform
-6. Dashboards: Google Looker data studio
-
+4. Transformations: Pyspark (transforms the data as needed, and store the data into data warehouse)
+5. IaC: Terraform 
+6. Dashboards: Google Looker data studio (helps in visually representing the data and also to share with others)
 7. The Dashboards are shared publicly to view, the details are mentioned at the last section of this page.
 8. The workflow is illustrated [here](./flow.jpg)
 
