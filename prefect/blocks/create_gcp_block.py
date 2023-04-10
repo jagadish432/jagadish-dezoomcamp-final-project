@@ -2,7 +2,7 @@ import os
 from prefect_gcp import GcpCredentials
 from prefect_gcp.cloud_storage import GcsBucket
 
-GCP_BUCKET = os.environ.get('gcp_bucket', 'no_bucket_name')
+GCP_BUCKET = os.environ['project_name']
 
 # alternative to creating GCP blocks in the UI
 # insert your own service_account_file path or service_account_info dictionary from the json file

@@ -1,7 +1,7 @@
 # jagadish-dezoomcamp-final-project
 This is Final project by Jagadeesh Dachepalli as part of DataTalksClub DE Zoomcamp 
 
-## Need to run the below steps in the mentioned order to be able create all the required resources for this project in GCP cloud, to deploy and test this project
+### Need to run the below steps in the mentioned order to be able create all the required resources for this project in GCP cloud, to deploy and test this project
 
 ## Pre-requisites
 We need to setup the system, incase we're planning to test this project. 
@@ -13,20 +13,18 @@ We need to create some infrastructure over a cloud(in this case I'm using Google
 Please refer the file [terraform.md](./terraform.md) for more details.
 
 
-## venv & PREFECT cli setup
-A. CD to prefect folder `cd ../prefect/`
-B. `sudo apt-get install python3-venv`
+## venv setup
+0. Run `sudo apt-get install python3-venv` to install python virtual environment package
+1. Create a python virtual enviornment - `python -m venv ipl_venv`
+2. Activate the virtual environemnt `source ipl_venv/bin/activate`
+3. Install all required python packages in the virtual environment - `pip install -r prefect/requirements.txt`
+4. Check the prefect version - `prefect --version`
 
-0. signup at https://www.prefect.io/cloud/ and then login, and create a workspace with name 'ipl-project'
-1. `python -m venv ipl_venv`
-2. `source ipl_venv/bin/activate`
-3. `pip install -r prefect/requirements.txt`
-4. `prefect --version`
-5. `prefect profile create pref_cloud`
-6. `prefect profile use pref_cloud`
-7. go to `https://app.prefect.cloud/my/api-keys` and create an API key, copy the value
-8. `prefect cloud login` and select `paste an API key` and paste the above copied API key value here
-9. `prefect cloud workspace set` and select the `ipl-project` workspace
+
+## Prefect setup and test
+Please refer this [prefect.md file](./prefect.md) for more information.
+
+
 
 
 ## Prefect

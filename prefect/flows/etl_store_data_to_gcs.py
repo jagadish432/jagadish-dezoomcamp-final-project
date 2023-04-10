@@ -7,7 +7,7 @@ from prefect_gcp.cloud_storage import GcsBucket, cloud_storage_upload_blob_from_
 
 from utils import clean_match_data, clean_ball_data
 
-GCP_BUCKET = os.environ['gcp_bucket']
+GCP_BUCKET = os.environ['project_name']
 GCP_CREDENTIALS = GcpCredentials.load("zoom-gcp-creds")
 
 
